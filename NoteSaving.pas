@@ -76,16 +76,22 @@ begin
        aNote.price := StrToFloat(PriceEd.Text);
        if saveAsNew then
        begin
-         Seek(noteFile, System.FileSize(noteFile));   {save new record at end of file}
+         Seek(noteFile, System.FileSize(noteFile));   {seek end of file}
          notePos := FilePos(noteFile);
          FilePosLabel.Caption := IntToStr(notePos);
        end
        else
-          Seek(noteFile, notePos);  {save file at current location}
+          Seek(noteFile, notePos);  {seek current location}
        Write(noteFile, aNote);
        CloseFile(noteFile);
      end;
-
+       {
+          AssignFile(<File variable>, <File name>);
+          Reset(<File variable>);
+          Seek(<File variable>, <Record>);
+          Write(<File variable>, <Record>);
+          CloseFile(<File variable>);
+       }
 end;
 
 procedure TForm1.TotalNotesButtonClick(Sender: TObject);

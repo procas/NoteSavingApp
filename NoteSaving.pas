@@ -126,7 +126,9 @@ begin
       ShowNote(aNote);
     end;
     CloseFile(noteFile);
+    FilePosLabel.Caption := LoadNoteEd.Text ;
     ShowMessage('Note number '+LoadNoteEd.Text+' has been loaded successfully' );
+
 end;
 
 procedure TForm1.SaveChangesButtonClick(Sender: TObject);

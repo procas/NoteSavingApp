@@ -1,4 +1,4 @@
-unit NoteSaving;
+﻿unit NoteSaving;
 
 interface
 
@@ -126,16 +126,19 @@ begin
       ShowNote(aNote);
     end;
     CloseFile(noteFile);
+    ShowMessage('Note number '+LoadNoteEd.Text+' has been loaded successfully' );
 end;
 
 procedure TForm1.SaveChangesButtonClick(Sender: TObject);
 begin
      SaveNoteRec(false);
+     ShowMessage('Note updated 🗒!');
 end;
 
 procedure TForm1.SaveNoteButtonClick(Sender: TObject);
 begin
     SaveNoteRec(true);
+    ShowMessage('Note saved 📒!');
 end;
 
 end.

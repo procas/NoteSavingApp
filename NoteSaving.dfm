@@ -10,6 +10,7 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
   TextHeight = 15
   object LoadNoteButton: TButton
     Left = 153
@@ -154,6 +155,26 @@ object Form1: TForm1
       TabOrder = 3
       Text = '0.0'
     end
+    object Memo1: TMemo
+      Left = 376
+      Top = 56
+      Width = 161
+      Height = 110
+      Lines.Strings = (
+        'Memo1')
+      TabOrder = 4
+      Visible = False
+    end
+    object Button1: TButton
+      Left = 424
+      Top = 184
+      Width = 75
+      Height = 25
+      Caption = 'Load Objects'
+      TabOrder = 5
+      Visible = False
+      OnClick = Button1Click
+    end
   end
   object SaveNoteButton: TButton
     Left = 376
@@ -192,7 +213,7 @@ object Form1: TForm1
     Left = 339
     Top = 361
     Width = 57
-    Height = 25
+    Height = 23
     TabOrder = 6
   end
   object SaveChangesButton: TButton

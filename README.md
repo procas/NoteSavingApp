@@ -17,4 +17,4 @@ Saving a new note:
 
 Loading an existing note from file for editing/viewing:
 
-![image](https://user-images.githubusercontent.com/37955433/193633442-359f86ef-2fd5-45d3-a37f-096b1b480c7d.png)
+![image](https://user-images.githubusercontent.com/37955433/193634043-45f41b50-0b94-4f6d-a6c4-1b157007b6fc.png)

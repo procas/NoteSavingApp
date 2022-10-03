@@ -1,4 +1,4 @@
-# NoteSavingApp
+# Note Saving App
 
 A personal note saving app in which you can maintain a mini journal of notes  - including title, content, date of creation and price (if any)
 

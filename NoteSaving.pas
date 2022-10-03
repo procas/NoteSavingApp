@@ -76,12 +76,12 @@ begin
        aNote.price := StrToFloat(PriceEd.Text);
        if saveAsNew then
        begin
-         Seek(noteFile, System.FileSize(noteFile));
+         Seek(noteFile, System.FileSize(noteFile));   {save new record at end of file}
          notePos := FilePos(noteFile);
          FilePosLabel.Caption := IntToStr(notePos);
        end
        else
-          Seek(noteFile, notePos);
+          Seek(noteFile, notePos);  {save file at current location}
        Write(noteFile, aNote);
        CloseFile(noteFile);
      end;
@@ -92,6 +92,7 @@ procedure TForm1.TotalNotesButtonClick(Sender: TObject);
 begin
     AssignFile(noteFile, NOTE_FILE_NAME);
     Reset(noteFile);
+    {the above two steps are equivalent to opening a File}
     TotalNotesEd.Text := IntToStr(System.FileSize(noteFile));
 end;
 

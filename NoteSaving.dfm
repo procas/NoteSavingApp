@@ -163,7 +163,6 @@ object Form1: TForm1
       Lines.Strings = (
         'Memo1')
       TabOrder = 4
-      Visible = False
     end
     object Button1: TButton
       Left = 424
@@ -172,7 +171,6 @@ object Form1: TForm1
       Height = 25
       Caption = 'Load Objects'
       TabOrder = 5
-      Visible = False
       OnClick = Button1Click
     end
   end

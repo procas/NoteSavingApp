@@ -53,6 +53,10 @@ Note = record
   price: double;
 end;
 
+const
+  sLineBreak = {$IFDEF LINUX} AnsiChar(#10) {$ENDIF}
+               {$IFDEF MSWINDOWS} AnsiString(#13#10) {$ENDIF};
+
 var
   Form1: TForm1;
   noteFile: File of Note;
@@ -169,7 +173,7 @@ type
 
 const
   TITLEARRAY : StrArray = ('Title-1', 'Title-2', 'Title-3', 'Title-4', 'Title-5');
-  CONTENTARRAY : LongStrArray = ('Content-1', 'Content-2', 'Content-3', 'Content-4', 'Content-1');
+  CONTENTARRAY : LongStrArray = ('Content-1', 'Content-2', 'Content-3', 'Content-4', 'Content-5');
 //  DATEARR : DateArray = (new EncodeDate(2022, 11, 3), ...)
   PRICEARRAY : DbArray = (10.0, 2.0, 1.1, 80, 7.6);
 
@@ -182,10 +186,16 @@ var
   DateArray : array[1..ARRAYSIZE] of TDateTime;
   I, J : integer;
   note : NoteObj;
+  randomDay : integer;
+  randomMonth : integer;
+  randomYear : integer;
 begin
   for I := 1 to 5 do
   begin
-    DateArray[I] := EncodeDate(2022, I, I+2);
+    randomDay := random(30-1)+1;
+    randomMonth := random(12-1)+1;
+    randomYear := random(2022-2000)+2000;
+    DateArray[I] := EncodeDate(randomYear, randomMonth, randomDay);   { just create a random set of dates }
   end;
    for J := 1 to 5 do
    begin
@@ -206,7 +216,8 @@ begin
      for I := 1 to ARRAYSIZE do
      begin
        note := obArray[I];
-       Memo1.Lines.Add('['+IntToStr(I)+']'+note.title+','+note.content+','+DateToStr(note.date)+','+FloatToStr(note.price));
+       Memo1.Lines.Add('['+IntToStr(I)+']'+note.title+sLineBreak+note.content+sLineBreak+DateToStr(note.date)+sLineBreak+'$'+FloatToStr(note.price));
+       Memo1.Lines.Add('---------------------');
      end;
 
 end;

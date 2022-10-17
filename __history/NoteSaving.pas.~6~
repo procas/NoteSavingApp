@@ -1,0 +1,141 @@
+unit NoteSaving;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Imaging.jpeg;
+
+type
+  TForm1 = class(TForm)
+    LoadNoteButton: TButton;
+    Panel1: TPanel;
+    SaveNoteButton: TButton;
+    LoadNoteEd: TEdit;
+    TitleEd: TEdit;
+    Label1: TLabel;
+    ContentEd: TEdit;
+    Label2: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    Label3: TLabel;
+    Edit4: TEdit;
+    PriceEd: TEdit;
+    Label4: TLabel;
+    Image1: TImage;
+    TotalNotesButton: TButton;
+    TotalNotesEd: TEdit;
+    FilePosLabel: TLabel;
+    SaveChangesButton: TButton;
+    procedure SaveNoteButtonClick(Sender: TObject);
+    procedure SaveNoteRec(saveAsNew : boolean);
+    procedure SaveChangesButtonClick(Sender: TObject);
+    procedure LoadNoteButtonClick(Sender: TObject);
+    procedure TotalNotesButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+type
+Str50 = string[50];
+Str255 = string[255];
+Str20 = string[20];
+Note = record
+  title: Str50;
+  content: Str255;
+  date: TDateTime;
+  price: double;
+end;
+
+var
+  Form1: TForm1;
+  noteFile: File of Note;
+  notePos: integer;
+
+const NOTE_FILE_NAME = 'MyNotes.dat';
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.SaveNoteRec (saveAsNew : boolean);
+var
+  aNote: Note;
+begin
+     AssignFile(noteFile, NOTE_FILE_NAME);
+     if not FileExists(NOTE_FILE_NAME) then
+        Rewrite(noteFile)
+     else
+        Reset(noteFile);
+     begin
+       aNote.title := TitleEd.Text;
+       aNote.content := ContentEd.Text;
+       aNote.date := DateTimePicker1.DateTime;
+       aNote.price := StrToFloat(PriceEd.Text);
+       if saveAsNew then
+       begin
+         Seek(noteFile, System.FileSize(noteFile));   {seek end of file}
+         notePos := FilePos(noteFile);
+         FilePosLabel.Caption := IntToStr(notePos);
+       end
+       else
+          Seek(noteFile, notePos);  {seek current location}
+       Write(noteFile, aNote);
+       CloseFile(noteFile);
+     end;
+       {
+          AssignFile(<File variable>, <File name>);
+          Reset(<File variable>);
+          Seek(<File variable>, <Record>);
+          Write(<File variable>, <Record>);
+          CloseFile(<File variable>);
+       }
+end;
+
+procedure TForm1.TotalNotesButtonClick(Sender: TObject);
+begin
+    AssignFile(noteFile, NOTE_FILE_NAME);
+    Reset(noteFile);
+    {the above two steps are equivalent to opening a File}
+    TotalNotesEd.Text := IntToStr(System.FileSize(noteFile));
+end;
+
+procedure ShowNote(aNote : Note);
+begin
+     Form1.TitleEd.Text := aNote.title;
+     Form1.ContentEd.Text := aNote.content;
+     Form1.DateTimePicker1.DateTime := aNote.date;
+     Form1.PriceEd.Text := FloatToStr(aNote.price);
+end;
+
+procedure TForm1.LoadNoteButtonClick(Sender: TObject);
+var aNote: Note;
+begin
+    var num := StrToInt(LoadNoteEd.Text);
+    if not FileExists(NOTE_FILE_NAME) then
+    ShowMessage('Record number '+LoadNoteEd.Text +' not found!')
+    else
+    begin
+      AssignFile(noteFile, NOTE_FILE_NAME);
+      Reset(noteFile);
+      Seek(noteFile, num);
+      notePos := FilePos(noteFile);
+      Read(noteFile, aNote);
+      ShowNote(aNote);
+    end;
+    CloseFile(noteFile);
+end;
+
+procedure TForm1.SaveChangesButtonClick(Sender: TObject);
+begin
+     SaveNoteRec(false);
+end;
+
+procedure TForm1.SaveNoteButtonClick(Sender: TObject);
+begin
+    SaveNoteRec(true);
+end;
+
+end.
